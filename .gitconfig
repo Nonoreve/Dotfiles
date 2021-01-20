@@ -1,0 +1,155 @@
+[user]
+
+	name = Nonoreve
+	email = noe.boonstra@gmail.com
+
+[alias]
+
+# shortcuts
+
+    # View the current working tree status using the short format
+    s = status
+
+    # Show the diff between the latest commit and the current state
+    doms = diff origin/master
+    domi = diff origin/main
+    domsns = diff origin/master --name-status
+    domins = diff origin/main --name-status
+
+    # Pull in remote changes for the current repository and all its submodules
+    pl = pull
+    pu = push
+    poms = push origin/master
+    pomi = push origin/main
+
+    cp = cherry-pick
+    co = checkout
+    ad = add .
+    cm = commit
+    fetch = fetch --prune
+    sns = show --name-status
+
+    # Show verbose output about tags, branches or remotes
+    branches = branch -a
+
+    # log
+    l = log --graph --all --pretty=format:'%C(yellow)%h %C(auto)%d %Creset%s%n        %C(yellow)[%C(cyan)%cr%C(yellow)] %Cgreen By %cn' -10
+    lf = log --graph --all --pretty=format:'%C(yellow)%h %C(auto)%d %Creset%s%n        %C(yellow)[%C(cyan)%cr%C(yellow)] %Cgreen By %cn'
+    la = log --pretty=oneline --graph --abbrev-commit --all
+    lns = log --pretty=oneline --graph --abbrev-commit --name-status
+
+    # Rebase
+    roms = rebase --preserve-merges origin/master
+    romi = rebase --preserve-merges origin/main
+    rc = rebase --continue
+    ra = rebase --abort
+
+    # Praise instead of blamming
+    praise = blame
+
+
+# more complex commands
+
+	# report of current state of repo
+    rep = !git status && git l
+
+    # Commit all changes
+    ca = !git add -A && git commit -av
+    wip = !git add -A && git commit -m wip
+
+    # Amend the currently staged files to the latest commit
+    mergeWip = !git commit --amend
+    mergeLast = !git commit --amend --reuse-message=HEAD
+
+    # Switch to a branch, creating it if necessary
+    go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+    # reset with the given number of latest commits
+    ress = "!r() { git reset --soft HEAD~$1; }; r"
+    resh = "!r() { git reset --hard HEAD~$1; }; r"
+
+    # Interactive rebase with the given number of latest commits
+    reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+    # Remove branches that have already been merged with master or main (except master and main)
+    # a.k.a. ‘delete merged’
+    dm = "!git branch --merged | egrep -v '(^\\*|master|main)' | xargs -n 1 git branch -d"
+
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+
+	# show all the git alias
+    alias = !git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+    # search for a specific alias
+    remind = !git alias | grep
+
+
+# commands to track productivity
+
+    # See Which Branches You Recently Worked On
+    recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
+
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered --no-merges
+
+    # Today’s Work
+    today = log --since=00:00:00 --all --no-merges --oneline --author=noe.boonstra@gmail.com
+
+	# where are you
+	way = git diff --compact-summary
+
+[apply]
+
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
+
+[core]
+
+	editor = ne
+
+[color]
+
+    # Use colors in Git commands that are capable of colored output when
+    # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+    ui = auto
+
+[color "branch"]
+
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+
+    meta = yellow bold
+    frag = magenta bold # line info
+    old = red # deletions
+    new = green # additions
+
+[color "status"]
+
+    added = yellow
+    changed = green
+    untracked = cyan
+
+[diff]
+
+    # Detect copies as well as renames
+    renames = copies
+
+[help]
+
+    # Automatically correct and execute mistyped commands
+    autocorrect = 1
+
+[merge]
+
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
+[push]
+
+    # Use the Git 1.x.x default to avoid errors on machines with old Git
+    # installations. To use `simple` instead, add this to your `~/.extra` file:
+    # `git config --global push.default simple`. See http://git.io/mMah-w.
+	default = current
