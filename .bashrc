@@ -1,11 +1,15 @@
 # ADDED BY NONOREVE
 noTooLongPath(){
   PREFIX='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[01;33m\][\[\033[01;34m\]\D{%Hh%M}\[\033[01;33m\]]\[\033[00m\]$\[\033[01;34m\]'
+  PREFLEN=32 # length of prefix after processing (don't know how to get it dynamically)
   EDITED_PATH='\w'
   POSTFIX='\[\033[00m\]: '
   DIR=`pwd`
-  if [ ${#DIR} -gt 42 ]; then
-    EDITED_PATH='${DIR:0:19}...${DIR:(-19)}'
+  COL=$(stty -a | grep -Po '(?<=columns )\d+')
+  (( LIM = $COL/2 - $PREFLEN )) # max remaining space for path
+  if [ ${#DIR} -gt $LIM ]; then
+	((STRIP=-$LIM-5)) # 5 is the length of [...]
+    EDITED_PATH='[...]${DIR:(STRIP)}'
   fi
   export PS1="$PREFIX$EDITED_PATH$POSTFIX"
 }
@@ -22,6 +26,8 @@ probeWifi(){
   DEVICE=$(iw dev | grep Interface | cut -d " " -f2)
   sudo iw dev $DEVICE scan | egrep "SSID|signal|\(on"
 }
+
+export TERM=linux
 
 alias enableVulkan='source ~/Stuff/VulkanSDK/setup-env.sh'
 alias pdf='evince 2>/dev/null'
