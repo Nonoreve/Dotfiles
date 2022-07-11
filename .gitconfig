@@ -1,7 +1,7 @@
 [user]
 
-	name = Nonoreve
-	email = noe.boonstra@gmail.com
+    name = Nonoreve
+    email = noe.boonstra@gmail.com
 
 [alias]
 
@@ -39,8 +39,8 @@
     lns = log --pretty=oneline --graph --abbrev-commit --name-status
 
     # Rebase
-    roms = rebase --preserve-merges origin/master
-    romi = rebase --preserve-merges origin/main
+    roms = rebase --preserve-merges origin/master # deprecated
+    romi = rebase --preserve-merges origin/main # deprecated
     rc = rebase --continue
     ra = rebase --abort
 
@@ -50,7 +50,7 @@
 
 # more complex commands
 
-	# report of current state of repo
+    # report of current state of repo
     rep = !git status && git l
 
     # Commit all changes
@@ -78,7 +78,7 @@
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
-	# show all the git alias
+    # show all the git alias
     alias = !git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
     # search for a specific alias
     remind = !git alias | grep
@@ -95,8 +95,8 @@
     # Today’s Work
     today = log --since=00:00:00 --all --no-merges --oneline --author=noe.boonstra@gmail.com
 
-	# where are you
-	way = git diff --compact-summary
+    # where are you
+    way = git diff --compact-summary
 
 [apply]
 
@@ -105,7 +105,7 @@
 
 [core]
 
-	editor = ne
+    editor = vim
 
 [color]
 
@@ -140,7 +140,7 @@
 [help]
 
     # Automatically correct and execute mistyped commands
-    autocorrect = 1
+    autocorrect = 10
 
 [merge]
 
@@ -152,4 +152,4 @@
     # Use the Git 1.x.x default to avoid errors on machines with old Git
     # installations. To use `simple` instead, add this to your `~/.extra` file:
     # `git config --global push.default simple`. See http://git.io/mMah-w.
-	default = current
+    default = current
