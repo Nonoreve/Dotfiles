@@ -51,7 +51,7 @@
 # more complex commands
 
     # report of current state of repo
-    rep = !git status && git l
+    rep = "!f() { cd ${GIT_PREFIX:-./}; git status && git l; }; f"
 
     # Commit all changes
     ca = !git add -A && git commit -av
