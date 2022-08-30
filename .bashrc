@@ -27,15 +27,17 @@ probeWifi(){
   sudo iw dev $DEVICE scan | egrep "SSID|signal|\(on"
 }
 
+desc(){
+	tree -a -L 3 -l --filelimit 15 -C $1 | tee /dev/tty | grep -q "0 dir" && ls -lah
+}
+
 export TERM=linux
 
-alias enableVulkan='source ~/Stuff/VulkanSDK/setup-env.sh'
 alias pdf='evince 2>/dev/null'
 alias pong='ping google.com -c 3'
-alias bashconf='nano ~/.bashrc && source ~/.bashrc' # not working
-alias py3='python3.7'
+alias bashconf='nano ~/.bashrc && source ~/.bashrc'
+alias py3='python3.10'
 alias sagent='eval `ssh-agent`'
 alias sadk='ssh-add'
-alias cleanCrash='ls -la /var/crash; sudo rm -v /var/crash/*'
 alias howTar='tar --help | grep tar | head -n 5'
-alias desc='tree -a -L 3 -l --filelimit 20 -C'
+#alias desc='tree -a -L 3 -l --filelimit 20 -C'
